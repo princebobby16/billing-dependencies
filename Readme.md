@@ -37,8 +37,8 @@ docker-compose down
 - Default Secret Key: `minioadmin`
 
 ## Persistent Data
-- RabbitMQ data is stored in `~/greyparrot/docker-installations/rabbit/rabbitmq/data/`.
-- MinIO stores data in a volume managed by Docker.
+- RabbitMQ data is stored in `./rabbitmq/data/`.
+- MinIO stores data in a volume managed by Docker `./minio/data/`.
 
 ## Network Configuration
 Both services are connected via a custom bridge network (`rabbitmq_go_net`).
