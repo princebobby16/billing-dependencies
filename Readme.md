@@ -1,4 +1,4 @@
-# Docker Compose for RabbitMQ and MinIO
+# Affinity Project - Docker Setup
 
 ## Prerequisites
 Before running this setup, ensure you have the following installed:
@@ -6,39 +6,53 @@ Before running this setup, ensure you have the following installed:
 - [Docker Compose](https://docs.docker.com/compose/install/)
 
 ## Services
-This `docker-compose.yml` file sets up the following services:
+This setup includes the following services:
+- RabbitMQ (for messaging)
+- MinIO (for object storage)
+- PostgreSQL (for the database)
 
-1. **RabbitMQ**: A message broker used for asynchronous communication.
-2. **MinIO**: A high-performance object storage server.
-
-## Usage
-
-### Start the Services
-Run the following command to start the services:
+## Running the Services
+To start all services, run:
 ```sh
 docker-compose up -d
 ```
 
-### Stop the Services
-To stop the running services, use:
+## Stopping the Services
+To stop all services, run:
 ```sh
 docker-compose down
 ```
 
-### Accessing RabbitMQ
-- Management UI: [http://localhost:15672](http://localhost:15672)
-- Default username: `guest`
-- Default password: `guest`
+## PostgreSQL Setup
+The PostgreSQL service is configured with the following environment variables:
+- **Database Name**: `affinity`
+- **User**: `postgres`
+- **Password**: `postgres`
+
+To connect to the PostgreSQL database from a client:
+```sh
+psql -h localhost -p 5432 -U postgres -d affinity
+```
+
+To check the logs of the PostgreSQL container:
+```sh
+docker logs postgres
+```
 
 ### Accessing MinIO
 - Console: [http://localhost:9001](http://localhost:9001)
 - API: [http://localhost:9000](http://localhost:9000)
-- Default Access Key: `minioadmin`
-- Default Secret Key: `minioadmin`
+- **Default Access Key**: `minioadmin`
+- **Default Secret Key**: `minioadmin`
 
-## Persistent Data
-- RabbitMQ data is stored in `./rabbitmq/data/`.
-- MinIO stores data in a volume managed by Docker `./minio/data/`.
+## RabbitMQ Setup
+To access RabbitMQ go to the management UI with Default credentials:
+- **Management UI**: [http://localhost:15672](http://localhost:9001)
+- **Username**: `guest`
+- **Password**: `guest`
 
-## Network Configuration
-Both services are connected via a custom bridge network (`rabbitmq_go_net`).
+## Troubleshooting
+If you encounter issues, check container logs with:
+```sh
+docker-compose logs -f
+```
