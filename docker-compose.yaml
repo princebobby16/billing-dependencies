@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    container_name: 'rabbitmq'
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ./rabbitmq/data/:/var/lib/rabbitmq/
+    networks:
+      - affinity_network
+
+  minio:
+    image: minio/minio:latest
+    container_name: 'minio'
+    ports:
+      - "9000:9000"
+      - "9090:9090"
+    environment:
+      MINIO_ROOT_USER: "FmKjA4m3Sy8GQRb74w8N"
+      MINIO_ROOT_PASSWORD: "vn4S8OUNfzvS747xf823mUseg8iR2MVvsLX6OPyh"
+    volumes:
+      - ./minio/data/:/data
+    command: server --console-address ":9090" /data
+    networks:
+      - affinity_network
+
+networks:
+  affinity_network:
+    driver: bridge
